@@ -26,8 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(
-                rootView: LandmarkList()
-                    .environmentObject(UserData())
+                rootView: CategoryHome()
+                    .environmentObject(UserData()) //이게 없으면 네비게이션 뷰가 크래쉬 ㅠㅠ
             )
             self.window = window
             window.makeKeyAndVisible()
