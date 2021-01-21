@@ -12,7 +12,6 @@ import SwiftUI
 struct AddExpenseView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var viewModel = AddExpenseViewModel()
-
     var save: ((ExpenseItem) -> Void)
 }
 

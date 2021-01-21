@@ -64,48 +64,12 @@ extension AddExpenseViewModel {
             .eraseToAnyPublisher()
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     private var isNameEmptyPublisher: AnyPublisher<Bool, Never> {
         nameTextPublisher
             .dropFirst()
             .map { $0.isEmpty }
             .eraseToAnyPublisher()
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     private var isAmountEmptyPublisher: AnyPublisher<Bool, Never> {
         amountTextPublisher

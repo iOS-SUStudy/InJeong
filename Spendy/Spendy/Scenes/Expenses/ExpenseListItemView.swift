@@ -16,7 +16,6 @@ struct ExpenseListItemView: View {
 
 // MARK: - Body
 extension ExpenseListItemView {
-
     var body: some View {
         HStack {
             Image(systemName: expenseItem.category.systemImageName)
@@ -57,7 +56,6 @@ extension ExpenseListItemView {
 
 // MARK: - Preview
 struct ExpenseListItemView_Previews: PreviewProvider {
-
     static var previews: some View {
         ExpenseListItemView(expenseItem: SampleExpenses.default[0])
     }
