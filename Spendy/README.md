@@ -127,14 +127,15 @@ enum SampleExpensesListViewModel {
 ```
 <br>
 
-### 3. List 만들기
+### 3. List 만들기 (첫 번째 뷰)
 
-1. **ExpenseListItemView.swift** : 먼저 리스트 아이템 하나를 만들어준다
+1. **ExpenseListItemView.swift** : 먼저 아래와 같은 리스트 아이템 하나를 만들어준다
 <img width="373" alt="스크린샷 2021-01-21 오후 6 25 06" src="https://user-images.githubusercontent.com/46644241/105330749-ffc37400-5c15-11eb-956b-f5fa4b6e5477.png">
 
 ```swift
 struct ExpenseListItemView: View {
-    let expenseItem: ExpenseItem
+    let expenseItem: ExpenseItem 
+    //위에서 만든 ExpenseItem 틀에 맞춰 데이터를 받아옴
 }
 ```
 ```swift
@@ -178,6 +179,8 @@ struct ExpenseListItemView_Previews: PreviewProvider { // previews 부분
 ```
 
 2. ExpenseListViewModel.swift : 모델 만들기
+- @UserDefault : 데이터 저장소, 앱의 어느 위치에서든 즉시 데이터를 읽고 저장할 수 있음 (key, defaultValue)으로 정의 (@State와 비슷함)
+- @Published : 변화가 있을 때마다 알림을 보냄
 ```swift
 import SwiftUI
 import Combine
@@ -201,6 +204,8 @@ final class ExpensesListViewModel: ObservableObject {
     }
 }
 ```
+- load : Expense List 불러오기 / decode
+- save : Expense List 저장하기 / encode
 ```swift
 extension ExpensesListViewModel {
     func loadSavedExpenses() -> [ExpenseItem] {
@@ -214,16 +219,18 @@ extension ExpensesListViewModel {
 }
 ```
 
-3. List View 만들기
-
+3. ExpensesListView.swift : List View 만들기
+- 위에 만들어놓은 모델과 하나의 항목를 이용해서 아래 그림과 같은전체 리스트 구성
 <img width="397" alt="스크린샷 2021-01-21 오후 7 50 15" src="https://user-images.githubusercontent.com/46644241/105340961-e45e6600-5c21-11eb-87c8-2974fcc0c955.png">
-
+- 초기 변수 셋팅
+- @ObservedObject : 알림설정 느낌, 변화가 있을 때마다 보내는 알림을 받음
 ```swift
 struct ExpensesListView: View {
     @ObservedObject private(set) var viewModel: ExpensesListViewModel
     var onAddExpense: (() -> Void)
 }
 ```
+- Expense 내역을 ForEach로 하나하나 List Item View에 넣어줌
 ```swift
 extension ExpensesListView {
     var body: some View {
@@ -231,16 +238,17 @@ extension ExpensesListView {
             ForEach(viewModel.expenses) { expenseItem in
                 ExpenseListItemView(expenseItem: expenseItem)
             }
+            // 항목을 왼쪽으로 슬라이드 시, Delete 가능하도록
             .onDelete(perform: removeItems(at:))
         }
         .navigationBarItems(
-            leading: EditButton(),
-            trailing: addButton
+            leading: EditButton(), // Edit버튼 추가
+            trailing: addButton // add버튼 추가
         )
     }
 }
 ```
-
+- add 버튼 정의 
 ```swift
 extension ExpensesListView {
     var addButton: some View { 
@@ -251,6 +259,7 @@ extension ExpensesListView {
     }
 }
 ```
+- delete 정의
 ```swift
 private extension ExpensesListView {
     func removeItems(at offsets: IndexSet) {
@@ -270,7 +279,7 @@ struct ExpensesList_Previews: PreviewProvider {
 }
 ```
 ### 4. Add View 만들기
-1. AddExpenseViewModel.swift 
+1. AddExpenseViewModel.swift : 소스코드 길어서 못가져옴ㅠㅠ 파일 찾아서 내용 복사
 2. AddExpenseView.swift : Expense 추가 뷰 만들기
 ```swift
 struct AddExpenseView: View {
@@ -280,7 +289,7 @@ struct AddExpenseView: View {
 }
 ```
 ```swift
-extension AddExpenseView {
+extension AddExpenseView { // body 부분
     var body: some View {
         NavigationView {
             Form {
@@ -328,14 +337,15 @@ extension AddExpenseView {
     private var saveButton: some View {
         Button(action: {
             guard let newExpenseItem = self.viewModel.newExpenseItem else {
-                preconditionFailure()
+                preconditionFailure() // 전제조건위반 exception
             }
             self.save(newExpenseItem)
             self.presentationMode.wrappedValue.dismiss()
         }) {
             Text("Save")
         }
-        .disabled(!viewModel.isFormValid)
+        .disabled(!viewModel.isFormValid) 
+        // 폼이 완성되지 않으면 버튼 disabled 처리, 완성될때만 버튼 활성화
     }
 }
 ```
@@ -351,8 +361,7 @@ struct AddExpenseView_Previews: PreviewProvider {
 ```swift
 struct ExpensesListContainerView: View {
     var viewModel = ExpensesListViewModel()
-    
-    @State private var isShowingAddView = false
+    @State private var isShowingAddView = false // 처음엔 addview 숨기기
 }
 ```
 ```swift
@@ -382,3 +391,10 @@ struct ExpensesListContainerView_Previews: PreviewProvider {
     }
 }
 ```
+<br>
+
+> 2021년 1월 20일 SwiftUI 스터디 
+<br>
+> days 036~038
+<br>
+> Project7 : iExpense
