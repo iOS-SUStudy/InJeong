@@ -222,6 +222,7 @@ extension ExpensesListViewModel {
 3. ExpensesListView.swift : List View 만들기
 - 위에 만들어놓은 모델과 하나의 항목를 이용해서 아래 그림과 같은전체 리스트 구성
 <img width="397" alt="스크린샷 2021-01-21 오후 7 50 15" src="https://user-images.githubusercontent.com/46644241/105340961-e45e6600-5c21-11eb-87c8-2974fcc0c955.png">
+
 - 초기 변수 셋팅
 - @ObservedObject : 알림설정 느낌, 변화가 있을 때마다 보내는 알림을 받음
 ```swift
