@@ -394,8 +394,7 @@ struct ExpensesListContainerView_Previews: PreviewProvider {
 ```
 <br>
 
-> 2021년 1월 20일 SwiftUI 스터디 
-<br>
-> days 036~038
-<br>
-> Project7 : iExpense
+> 2021년 1월 20일 SwiftUI 스터디
+
+    days 036~038
+    Project7 : iExpense
